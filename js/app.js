@@ -1,12 +1,14 @@
 /*
  * Ａ list that holds all of my cards
  */
- const iconsList = ['fa-diamond', 'fa-paper-plane-o','fa-anchor', 'fa-bolt', 'fa-cube', 'fa-leaf', 'fa-bicycle', 'fa-bomb', 'fa-diamond', 'fa-paper-plane-o','fa-anchor', 'fa-bolt', 'fa-cube', 'fa-leaf', 'fa-bicycle', 'fa-bomb'];
+ const iconsList = ['fa-diamond', 'fa-paper-plane-o','fa-anchor', 'fa-bolt', 'fa-cube', 'fa-leaf', 'fa-bicycle', 'fa-bomb'];
+ const dobuleIconsList = iconsList.concat(iconsList);
 
  let matched = []; //A list that holds all of matched symbols
- let move = 0; // move counter
+ let move = 0; // Move counter
  let starNum = 3; // Number of stars
-
+ let t = 0; // Default value is 0, will be reset when user win or restart a game
+ let myTimer;
 
  /* Restart matching game
  *  1. remove the card board, remove stars, reset move count, reset number of stars, reset matched array
@@ -15,6 +17,7 @@
  function restart(){
    const myRestart = document.querySelector('.fa-repeat')
    myRestart.addEventListener('click', function(){
+     clearInterval(myTimer); //Stop the previous timer
      tearDown();
      Init();
    })
@@ -42,6 +45,7 @@ function tearDown(){
   removeStars();
   move = 0; //Num of move reset
   starNum = 3; //Num of star reset
+  t = 0; //Reset the timer
   resetList(matched);
   document.querySelector('.moves').innerHTML = 0;
 }
@@ -93,9 +97,11 @@ function playAgain() {
      }
      // console.log("Matched Symbol: " + matched.toString());
      if (matched.length == 8){
-       // When the user wins the game, open the modal
+       // When the user wins the game, open the modal and stop Timer
+       clearInterval(myTimer);
        document.querySelector('#f-move').innerHTML = move;
        document.querySelector('#f-star').innerHTML = starNum;
+       document.querySelector('#f-timer').innerHTML = t;
        modal.style.display = "block";
 
        // // When the user clicks on <span> (x), close the modal and play again
@@ -193,11 +199,19 @@ function playAgain() {
      card.classList.add('show');
  }
 
+function countTime(){
+  // Display current spend time on page
+  document.querySelector('.timer').innerHTML = t;
+  return t++;
+}
 
 function activateCards(){
+   myTimer = setInterval(countTime ,1000);
+   //console.log(t);
    document.querySelectorAll('li.card').forEach(function(card){
      card.addEventListener('click', function(evt){
        evt.preventDefault();
+
        // Check whether the card is opened or not.
        // If yes, do nothing to avoid a user click the same card or matched card.
        // If not, open the card, and put it into the openedCardList. Once there are two cards, go into compare progess.
@@ -261,7 +275,7 @@ function shuffle(array) {
 
 function createCard(){
     const myCardBoard = document.querySelector('.deck');
-    const myIconsList = shuffle(iconsList);
+    const myIconsList = shuffle(dobuleIconsList);
     for (let i = 0; i <=15; i++){
       const newCard = document.createElement('li');
       newCard.classList.add('card');
