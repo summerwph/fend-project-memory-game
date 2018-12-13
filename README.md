@@ -3,7 +3,7 @@
 This is a browser-based card matching game. The starter code from Udacity has some HTML and CSS styling to diaplay a static version of the Memory Game project. The updated code will modify the HTML and CSS files, but primarily the JavaScript file to covert this project to an interactive one. 
 
 
-## How the Game Works
+### How the Game Works
 The game board consists of sixteen "cards" arranged in a grid. The deck is made up of eight different pairs of cards, each with different symbols on one side. The cards are arranged randomly on the grid with the symbol face down. The gameplay rules are very simple: flip over two hidden cards at a time to locate the ones that match!
 
 Each turn:
@@ -20,3 +20,4 @@ Each turn:
 3. Open "index.html" on your brower 
 Enjoy your game!! :)
 
+![Demo Image](img/MemoryGame-Demo.png)
